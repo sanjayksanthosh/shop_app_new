@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shoop_app/model/ordersModel.dart';
+import 'package:shoop_app/model/productmodel.dart';
 
 class OrderPage extends StatefulWidget {
   OrderPage({super.key});
@@ -8,22 +11,30 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-  List orders = [
-    {
-      "id": "dau883992-ad2",
-      "date": "22/2/6 15:55:52",
-      "isPlaced": true,
-      "name": "carrot",
-      "price": 100
-    },
-    {
-      "id": "lpo89i4-wer",
-      "date": "12/23/8 8:75:5",
-      "isPlaced": false,
-      "name": "battery",
-      "price": 200
+  @override
+  void initState() {
+    getOrders();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getOrders() async {
+    String url = "https://node-server-ymb5.onrender.com/order";
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      // var jsonResponse = jsonDecode(response.body);
+
+      setState(() {
+        orders = ordersFromJson(response.body);
+      });
+      print('sucess: $orders');
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
     }
-  ];
+  }
+
+  List<Orders> orders = [];
+  int totalAmount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +45,8 @@ class _OrderPageState extends State<OrderPage> {
         // setState(() {
         //   total = total + orders[index]["price"];
         // });
+
+        var order = orders[index];
         return ListTile(
           onTap: () {
             showModalBottomSheet(
@@ -52,31 +65,34 @@ class _OrderPageState extends State<OrderPage> {
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return ListTile(
-                              title: Text(orders[index]["name"]),
+                              title: Text(order.items[index].name),
                             );
                           },
-                          itemCount: orders.length,
+                          itemCount: order!.items.length,
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Total: 300 ",
+                            "Total: ${orders[index].total} ",
                             style: TextStyle(fontSize: 25),
                           ),
                         ],
                       ),
-                      ElevatedButton(onPressed: () {}, child: Text("Close"))
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Close"))
                     ],
                   ),
                 );
               },
             );
           },
-          title: Text(orders[index]["id"]),
-          subtitle: Text("Placed at: ${orders[index]["date"]}"),
-          trailing: Text(orders[index]["isPlaced"] ? "placed" : "not placed"),
+          title: Text(orders![index].id),
+          subtitle: Text("Placed at: ${orders![index].datetime}"),
         );
       },
     ));

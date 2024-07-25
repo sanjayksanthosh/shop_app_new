@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoop_app/model/productmodel.dart';
@@ -16,17 +18,29 @@ class _CartpageState extends State<Cartpage> {
   int totalAmount = 0;
 
   void placeOrder() async {
-    String url = "https://node-server-ymb5.onrender.com/order";
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      // var jsonResponse = jsonDecode(response.body);
-
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        final providerItems = Provider.of<Itemprovide>(context, listen: false);
+    try {
+      String url = "https://node-server-ymb5.onrender.com/order";
+      final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+      final body = jsonEncode({
+        "items": Provider.of<CartProvider>(context, listen: false).cartItems,
+        "datetime": DateTime.now().toString(),
+        "total": Provider.of<CartProvider>(context, listen: false).totalAmount
       });
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
+      var response =
+          await http.post(body: body, headers: headers, Uri.parse(url));
+      print(response.body);
+    } catch (e) {
+      print(e);
     }
+    // if (response.statusCode == 201) {
+    //   // var jsonResponse = jsonDecode(response.body);
+
+    //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //     final providerItems = Provider.of<Itemprovide>(context, listen: false);
+    //   });
+    // } else {
+    //   print('Request failed with status: ${response.statusCode}.');
+    // }
   }
 
   @override
@@ -69,7 +83,9 @@ class _CartpageState extends State<Cartpage> {
             height: 50,
             width: 400,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                placeOrder();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
