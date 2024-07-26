@@ -8,6 +8,7 @@ import 'package:shoop_app/views/cartPage.dart';
 import 'package:shoop_app/views/categoryPage.dart';
 import 'package:shoop_app/views/orderPage.dart';
 import 'package:shoop_app/views/profilePage.dart';
+import 'package:shoop_app/views/searchPage.dart';
 import 'package:shoop_app/widgets/product_card.dart';
 import 'package:http/http.dart' as http;
 
@@ -62,9 +63,18 @@ class _HomepageState extends State<Homepage> {
             style: TextStyle(color: Colors.white),
           ),
           actions: [
-            Icon(
-              Icons.search,
-              color: Colors.white,
+            InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return SearchPage();
+                  },
+                ));
+              },
+              child: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
             ),
             SizedBox(
               width: 10,
