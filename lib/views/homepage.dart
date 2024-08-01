@@ -9,6 +9,7 @@ import 'package:shoop_app/views/categoryPage.dart';
 import 'package:shoop_app/views/orderPage.dart';
 import 'package:shoop_app/views/profilePage.dart';
 import 'package:shoop_app/views/searchPage.dart';
+import 'package:shoop_app/views/userlistpage.dart';
 import 'package:shoop_app/widgets/product_card.dart';
 import 'package:http/http.dart' as http;
 
@@ -93,10 +94,15 @@ class _HomepageState extends State<Homepage> {
             SizedBox(
               width: 10,
             ),
-            Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return Userlistpage();
+                    },
+                  ));
+                },
+                icon: Icon(Icons.menu)),
             SizedBox(
               width: 10,
             ),

@@ -96,7 +96,7 @@ class _ProfilepageState extends State<Profilepage> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return Updateprofilepage(userid: user["_id"]);
+                        return Updateprofilepage(User: user);
                       },
                     ));
                   },
