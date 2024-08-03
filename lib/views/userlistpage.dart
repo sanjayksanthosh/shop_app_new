@@ -65,7 +65,8 @@ class _UserlistpageState extends State<Userlistpage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(Users[index]["image"]),
+                  backgroundImage: NetworkImage(
+                      "http://localhost:3000/${Users[index]["image"]}"),
                   radius: 20,
                 ),
                 Text(Users[index]["username"]),

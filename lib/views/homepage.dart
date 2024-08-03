@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoop_app/model/productmodel.dart';
 import 'package:shoop_app/providers/itemProvide.dart';
+import 'package:shoop_app/services/networkservices.dart';
 import 'package:shoop_app/views/cartPage.dart';
 import 'package:shoop_app/views/categoryPage.dart';
 import 'package:shoop_app/views/orderPage.dart';

@@ -5,6 +5,7 @@ import 'package:shoop_app/providers/itemProvide.dart';
 import 'package:shoop_app/providers/userProvider.dart';
 import 'package:shoop_app/views/homepage.dart';
 import 'package:shoop_app/views/loginpage.dart';
+import 'package:shoop_app/views/testpage.dart';
 
 void main() {
   runApp(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Loginpage(),
+      home: Testpage(),
     );
   }
 }
